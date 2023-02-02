@@ -12,14 +12,19 @@ int main()
 
 	cout << "abc" << "\t" << "def" << endl;
 	cout << "ab" << "\t" << "cdef" << endl;
-	// abc     def 출력
-	// ab      cdef 출력
-	// \t : 탭, 위와 같이 열 맞춤의 느낌을 들게 해줌
+	/*	abc     def 출력
+		ab      cdef 출력
+
+		\t : 탭, 위와 같이 열 맞춤의 느낌을 들게 해줌
+	*/
 
 	cout << "abc\n" << "def" << endl;
-	// abc 
-	// def 출력
-	// \n : 줄바꿈 (endl과 유사)
+	/*
+		abc
+		def 출력
+
+		\n : 줄바꿈 (endl과 유사)
+	*/
 
 	cout << "\a" << endl;
 	// \a : 오디오 소리 출력
