@@ -6,6 +6,15 @@ using namespace std;
 
 int main()
 {
+	/*
+		영역		 형			최소크기		기타
+		char	    char		 1byte		
+	  integer	    short		 2byte
+					int			 2byte		 대부분 4byte
+					long		 4byte			
+				 long long		 8byte      
+	*/
+
 	// 정수형 변수에 대한 자세한 설명은 기본 자료형 파일에 있음
 
 	/*
