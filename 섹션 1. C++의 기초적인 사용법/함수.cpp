@@ -18,7 +18,7 @@ void printHelloWorld()
 
 	/*
 		return을 만나면 바로 반환을 해서 main으로 돌아감
-		이 함수를 실행시켰을 때 HelloWorld만 출력이 되고
+		이 함수를 호출했을 때 HelloWorld만 출력이 되고
 		아래 줄에 있는 HelloWorld Again은 출력되지 않는다.
 	*/
 
