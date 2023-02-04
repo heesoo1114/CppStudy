@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-	// 더하기, 곱셈, 나누기, 나머지, 빼기
+	// 전부 대입 연산자 사용
 
 	int x = 4;
 	int y = 2;
