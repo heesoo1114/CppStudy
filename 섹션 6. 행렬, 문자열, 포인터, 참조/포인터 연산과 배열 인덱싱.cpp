@@ -26,7 +26,7 @@ int main()
 	for (int i = 0; i < listLength; ++i)
 	{
 		// cout << list[i] << " " << uintptr_t(&list[i]) << endl;
-		cout << *(lptr + i) << " " << uintptr_t(&lptr + i) << endl;
+		cout << *(lptr + i) << " " << uintptr_t(lptr + i) << endl;
 	}
 
 	return 0;
