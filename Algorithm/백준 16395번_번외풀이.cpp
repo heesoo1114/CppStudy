@@ -6,7 +6,10 @@ using namespace std;
 // 백준 16395번 파스칼의 삼각형 (1차원 배열로 풀기)
 int main()
 {
-	int n = 10; // 행
+	int n; // 행
+	int k; // 열
+
+	cin >> n >> k;
 
 	int arr[1001] = { 1, 0 };
 
@@ -15,11 +18,12 @@ int main()
 		for (int j = 1; j <= i; j++) // 열 반복
 		{
 			int index = i * n + j;
-			arr[index] = arr[index - 10] + arr[index - 11];
-			cout << arr[index] << '\t';
+			arr[index] = arr[index - n] + arr[index - n - 1];
 		}
-		cout << endl;
 	}
+
+	int index = n * n + k;
+	cout << arr[index] << endl;
 
 	return 0;
 }
