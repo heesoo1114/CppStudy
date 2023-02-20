@@ -2,7 +2,7 @@
 #include<vector>
 using namespace std;
 
-// 재귀함수 사용 X
+// 반복적 동적 계획법
 int main()
 {
 	// 실행 속도 UP
