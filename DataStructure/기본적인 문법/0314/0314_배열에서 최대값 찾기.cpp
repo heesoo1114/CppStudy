@@ -3,39 +3,30 @@ using namespace std;
 
 int main()
 {
-	#pragma region 배열에서 최대값 찾기
-
 	int arr[100];
-
-	int max = 0;
-
-	for (int i = 0; i < 100; i++)
-	{
-		arr[i] = i + 1;
-	}
+	int index[11] = {0};
 
 	srand((unsigned int)time(NULL));
+	for (int i = 0; i < 100; i++) arr[i] = i + 1;
+
 	for (int i = 0; i < 10; i++)
 	{
-		arr[i] = 
+		int index1 = rand() % 100;
+		int index2 = rand() % 10;
+
+		swap(arr[index1], arr[index2]);
 	}
 
+	int max = 0;
 	for (int i = 0; i < 10; i++)
 	{
-		
-		
-		cout << arr[index[]] << " ";
+		cout << arr[i] << " ";
 
-		/*if (max <= arr[i])
+		if (max <= arr[i])
 		{
 			max = arr[i];
-		}*/
+		}
 	}
 
-	cout << "\n" << "max : " << max << endl;
-
-	#pragma endregion
-
-
-	
+	cout << "\n" << "최대값 : " << max << endl;
 }
