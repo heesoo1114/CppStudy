@@ -3,11 +3,6 @@ using namespace std;
 
 int main()
 {
-	#pragma region FAST
-		ios::sync_with_stdio(false);
-		cin.tie(NULL); cout.tie(NULL);
-	#pragma endregion
-
 	int input;
 	int sum = 0; // 합
 	int rev = 0; // 뒤집은 수
