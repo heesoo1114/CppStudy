@@ -30,6 +30,36 @@ void Init(int* _pNumber)
 	}
 }
 
+AI_MODE SelectMode()
+{
+	AI_MODE temp;
+	int modeInput;
+	cout << "EASY : 1, NORMAL : 2" << endl;
+	cout << "숫자를 입력하여 모드를 선택하세요" << endl;
+	cin >> modeInput;
+	switch (modeInput)
+	{
+		case 1:
+		{
+			temp = AI_MODE::AM_EASY;
+			cout << "선택한 모드는 " << "EASY MODE " << "입니다." << endl;
+		}
+		break;
+		case 2:
+		{
+			temp = AI_MODE::AM_NORMAL;
+			cout << "선택한 모드는 " << "NORMAL MODE " << "입니다." << endl;
+		}
+		default:
+		{
+			cout << "선택한 모드는 " << "NONE " << "입니다." << endl;
+		}
+		break;
+	}
+
+	return temp;
+}
+
 void RenderNumber(int* _pNumber, int _iBingo)
 {
 	cout << "=====================================" << endl;
@@ -55,7 +85,7 @@ void RenderNumber(int* _pNumber, int _iBingo)
 	cout << "Bingo Line : " << _iBingo << endl;
 }
 
-void Update(int* _pNumber, int& _iInput)
+void Update(int* _pNumber, int* _pAiNumber, int& _iInput)
 {
 	for (int i = 0; i < 25; i++)
 	{
@@ -63,6 +93,39 @@ void Update(int* _pNumber, int& _iInput)
 		{
 			_pNumber[i] = INT_MAX;
 		}
+
+		if (_iInput == _pAiNumber[i])
+		{
+			_pAiNumber[i] = INT_MAX;
+		}
+	}
+}
+
+void EasyModeUpdate(int* _pAiNumber, int* _pNumber)
+{
+	while (true)
+	{
+		int input;
+		input = rand() % 25;
+
+		if (_pAiNumber[input] == INT_MAX) continue;
+
+		cout << input << endl;
+
+		for (int i = 0; i < 25; i++)
+		{
+			if (input == _pAiNumber[i])
+			{
+				_pAiNumber[i] = INT_MAX;
+			}
+
+			if (input == _pNumber[i])
+			{
+				_pNumber[i] = INT_MAX;
+			}
+		}
+
+		break;
 	}
 }
 
@@ -123,26 +186,55 @@ int CountBingo(int* _pNumber, int iBingo)
 	return iCheckBingo;
 }
 
+void WinnerCheck(int iBingo, int iAiBingo)
+{
+	if (iBingo == 5 && iAiBingo == 5)
+	{
+		cout << "무승부" << endl;
+		return;
+	}
+
+	// 게임 승리 조건
+	if (iBingo >= 5)
+	{
+		cout << "게임에서 승리하셨습니다." << endl;
+		return;
+	}
+
+	if (iAiBingo >= 5)
+	{
+		cout << "게임에서 승리하셨습니다." << endl;
+		return;
+	}
+}
+
 int main()
 {
 	int iNumber[25] = {};
+	int iAiNumber[25] = {};
 	int iBingo = 0;
+	int iAiBingo = 0;
 	int iInput;
+
+	AI_MODE mode = SelectMode();
+
 	Init(iNumber);
+	Sleep(1000);
+	Init(iAiNumber);
 
 	while (true)
 	{
+		// 그리기
 		system("cls");
 		RenderNumber(iNumber, iBingo);
+		RenderNumber(iAiNumber, iAiBingo);
 
-		// 게임 승리 조건
-		if (iBingo >= 5)
-		{
-			cout << "게임에서 승리하셨습니다." << endl;
-			break;
-		}
+		// 승자 체크
+		WinnerCheck(iBingo, iAiBingo);
 
+		// 입력받기
 		cout << "숫자를 입력하세요. (0 : 종료)" << endl;
+		cout << "입력 : ";
 		cin >> iInput;
 
 		// 예외처리
@@ -157,7 +249,10 @@ int main()
 			continue;
 		}
 
-		Update(iNumber, iInput);
+		Update(iNumber, iAiNumber, iInput);
 		iBingo = CountBingo(iNumber, iBingo);
+
+		EasyModeUpdate(iAiNumber, iNumber);
+		iAiBingo = CountBingo(iAiNumber, iAiBingo);
 	}
 }
