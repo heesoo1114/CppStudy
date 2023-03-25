@@ -4,6 +4,7 @@ using namespace std;
 int main()
 {
 	int arr[5][5];
+
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 5; j++)
@@ -12,13 +13,28 @@ int main()
 		}
 	}
 
-	int sum = 0, max = 0;
-	for (int i = 0; i < 3; i++)
+	int max = 0;
+
+	for (int x = 0; x < 3; x++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (int y = 0; y < 3; y++)
 		{
-			cout << arr[i][j] << " ";
+			int sum = 0;
+
+			for (int i = x; i < x + 3; i++)
+			{
+				for (int j = y; j < y + 3; j++)
+				{
+					sum += arr[i][j];
+				}
+			}
+
+			if (max <= sum)
+			{
+				max = sum;
+			}
 		}
-		cout << endl;
 	}
+
+	cout << max << endl;
 }
