@@ -186,6 +186,19 @@ int CountBingo(int* _pNumber, int iBingo)
 	return iCheckBingo;
 }
 
+void AIPlay(AI_MODE mode, int* iAiNumber, int* iNumber, int &iAiBingo)
+{
+	if (mode == AI_MODE::AM_EASY)
+	{
+		EasyModeUpdate(iAiNumber, iNumber);
+		iAiBingo = CountBingo(iAiNumber, iAiBingo);
+	}
+	else if (mode == AI_MODE::AM_NORMAL)
+	{
+
+	}
+}
+
 void WinnerCheck(int iBingo, int iAiBingo)
 {
 	if (iBingo == 5 && iAiBingo == 5)
@@ -214,6 +227,7 @@ int main()
 	int iAiNumber[25] = {};
 	int iBingo = 0;
 	int iAiBingo = 0;
+
 	int iInput;
 
 	AI_MODE mode = SelectMode();
@@ -252,7 +266,6 @@ int main()
 		Update(iNumber, iAiNumber, iInput);
 		iBingo = CountBingo(iNumber, iBingo);
 
-		EasyModeUpdate(iAiNumber, iNumber);
-		iAiBingo = CountBingo(iAiNumber, iAiBingo);
+		AIPlay(mode, iAiNumber, iNumber, iBingo);
 	}
 }
