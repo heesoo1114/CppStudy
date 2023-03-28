@@ -121,8 +121,6 @@ int SelectAiNumber(int* _pNumber, AI_MODE _eMode)
 	{
 		for (int i = 0; i < 25; ++i)
 		{
-			iNoneSelectcnt = 0;
-
 			if (_pNumber[i] != INT_MAX)
 			{
 				iNoneSelect[iNoneSelectcnt] = _pNumber[i];
@@ -164,7 +162,7 @@ int SelectAiNumber(int* _pNumber, AI_MODE _eMode)
 			iStarcnt = 0;
 			for (int j = 0; j < 5; j++)
 			{
-				if (_pNumber[i * 5 + i] == INT_MAX) // 세로줄
+				if (_pNumber[j * 5 + i] == INT_MAX) // 세로줄
 				{
 					iStarcnt++;
 				}
@@ -205,8 +203,6 @@ int SelectAiNumber(int* _pNumber, AI_MODE _eMode)
 			iLine = (int)LINE_NUMBER::LN_RT;
 			iSavecnt = iStarcnt;
 		}
-
-		// 가장 높은 줄을 안다
 
 		if (iLine <= (int)LINE_NUMBER::LN_H5) // 가로
 		{
