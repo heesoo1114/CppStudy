@@ -34,10 +34,10 @@ int bisearch(int x)
 
 int main()
 {
-#pragma region FAST
-	ios::sync_with_stdio(false);
-	cin.tie(NULL); cout.tie(NULL);
-#pragma endregion
+	#pragma region FAST
+		ios::sync_with_stdio(false);
+		cin.tie(NULL); cout.tie(NULL);
+	#pragma endregion
 
 	cin >> n;
 	for (int i = 0; i < n; i++)
