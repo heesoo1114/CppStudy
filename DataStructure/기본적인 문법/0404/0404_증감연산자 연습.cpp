@@ -17,6 +17,12 @@ public:
 		value++;
 		return *this;
 	}
+
+	Counter& operator++(int )
+	{
+		value++;
+		return *this;
+	}
 };
 
 int main()
