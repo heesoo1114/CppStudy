@@ -11,6 +11,9 @@ enum class COLOR
 };
 
 void FullScreen();
-void Gotoxy(int x, int y);
+BOOL Gotoxy(int x, int y);
+void GotoxyPlayer(int x, int y);
 void ConsoleCursor(bool, DWORD);
 void SetColor(int, int);
+int GetColor();
+int GetBgColor();
