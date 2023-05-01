@@ -50,20 +50,31 @@ typedef struct _tagboom
 	int x;
 	int y;
 	int life;
+	bool isDie;
 	
 }BOOM, *PBOOM;
 
-#include <vector>
+#include <vector> 
+// 이 헤더파일로 include 된 vector를 사용한다는 것을 알게 해주어야 함
+// 우리가 using namespace std; 를 사용하는 것을 습관화하였기 때문
+// 따라서 아래에 vector<BOOM> -> std::vector<BOOM> 으로 수정
+// !! 헤더파일에서 using namespace는 사용하지 않는 것을 권장 
 
 void AsciiArt();
 void Init(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, PPOS _pStartpos, PPOS _pEndpos);
-void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<BOOM> _vecBomb, vector<POS> _boomEffect);
-void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<POS> _boomEffect);
+void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<BOOM>& _vecBomb, std::vector<POS>& _boomEffect);
+void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<POS>& _boomEffect);
+void BombCreate(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<BOOM>& _vecBomb);
 
-enum class MAYTYPE
+enum class MAPTYPE
 {
 	WALL = '0',
 	ROAD = '1',
 	START = '2',
 	END = '3',
+	WATERBOMB = 'b',
+	TWINKLE = 'p',
+	POWER = '4',
+	SLIME = '5',
+	PUSH = '6'
 };

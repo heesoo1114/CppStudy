@@ -3,6 +3,7 @@
 #include <io.h>
 #include <fcntl.h>
 #include <Windows.h>
+#include <algorithm>
 #include "Header/console.h"
 
 using namespace std;
@@ -60,7 +61,7 @@ void Init(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, PPOS _pStartpos, PPO
 	strcpy_s(_cMaze[19], "00000000000100000000");
 }
 
-void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<BOOM> _vecBomb, vector<POS> _boomEffect)
+void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<BOOM>& _vecBomb, vector<POS>& _boomEffect)
 {
 	// 갱신된 위치에 현재 위치를 저장
 	_pPlayer->tNewPos = _pPlayer->tPos;
@@ -87,15 +88,32 @@ void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<BOOM> _vecB
 		Sleep(100);
 	}
 
+	// 벽 밖인지 clamp
+	_pPlayer->tNewPos.x = std::clamp(_pPlayer->tNewPos.x, 0, HORIZON - 2);
+	_pPlayer->tNewPos.y = std::clamp(_pPlayer->tNewPos.y, 0, VERTICAL - 1);
+
 	if (_cMaze[_pPlayer->tNewPos.y][_pPlayer->tNewPos.x] != 0) // 0은 벽인데 벽이 아니고 갈 수 있는 타일이어야 이동 가능
 	{
 		_pPlayer->tPos = _pPlayer->tNewPos;
 	}
 
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		BombCreate(_cMaze, _pPlayer, _vecBomb);
+	}
+
+	if (GetAsyncKeyState('E') & 0x8000)
+	{
+		if (_pPlayer->bWallPush)
+		{
+			_pPlayer->bPushOnOff = !_pPlayer->bPushOnOff;
+		}
+	}
+
 	Sleep(100);
 }
 
-void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<POS> boomEffectr)
+void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<POS>& boomEffectr)
 {
 	for (int i = 0; i < VERTICAL; i++)
 	{
@@ -105,23 +123,87 @@ void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<POS> boomEf
 			{
 				cout << "♂";
 			}
-			else if (_cMaze[i][j] == (char)MAYTYPE::WALL)
+			else if (_cMaze[i][j] == (char)MAPTYPE::WALL)
 			{
 				cout << "■";
 			}
-			else if (_cMaze[i][j] == (char)MAYTYPE::ROAD)
+			else if (_cMaze[i][j] == (char)MAPTYPE::ROAD)
 			{
 				cout << " ";
 			}
-			else if (_cMaze[i][j] == (char)MAYTYPE::START)
+			else if (_cMaze[i][j] == (char)MAPTYPE::START)
 			{
 				cout << "®";
 			}
-			else if (_cMaze[i][j] == (char)MAYTYPE::END)
+			else if (_cMaze[i][j] == (char)MAPTYPE::END)
 			{
 				cout << "♨";
 			}
+			else if (_cMaze[i][j] == (char)MAPTYPE::END)
+			{
+				cout << "♨";
+			}
+			else if (_cMaze[i][j] == (char)MAPTYPE::WATERBOMB)
+			{
+				SetColor((int)COLOR::MINT, (int)COLOR::BLACK);
+				cout << "@";
+			}
+			else if (_cMaze[i][j] == (char)MAPTYPE::TWINKLE)
+			{
+				SetColor((int)COLOR::SKYBLUE, (int)COLOR::BLACK);
+				cout << "⊙";
+			}
+			else if (_cMaze[i][j] == (char)MAPTYPE::POWER)
+			{
+				cout << "◐";
+			}
+			else if (_cMaze[i][j] == (char)MAPTYPE::SLIME)
+			{
+				cout << "♤";
+			}
+			else if (_cMaze[i][j] == (char)MAPTYPE::PUSH)
+			{
+				cout << "▩";
+			}
+			SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
 		}
 		cout << endl;
+	}
+	cout << "SPACEBAR: 폭탄설치, E: 푸시능력 ON/OFF" << endl;
+	cout << "폭탄 파워 " << _pPlayer->iBombPower << endl;
+
+	if (_pPlayer->bPushOnOff)
+	{
+		cout << "푸시 능력 ON " << endl;
+	}
+	else
+	{
+		cout << "푸시 능력 OFF " << endl;
+	}
+
+	if (_pPlayer->bSlime)
+	{
+		cout << "슬라임 능력 ON " << endl;
+	}
+	else
+	{
+		cout << "슬라임 능력 OFF " << endl;
+	}
+	
+}
+
+void BombCreate(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<BOOM>& _vecBomb)
+{
+	// 폭탄 개수는 5개만
+	if (_pPlayer->iBombCount == 5) return;
+
+	// 폭탄 설치 가능
+	if (_cMaze[_pPlayer->tPos.y][_pPlayer->tPos.x] == (char)MAPTYPE::ROAD)
+	{
+		_cMaze[_pPlayer->tPos.y][_pPlayer->tPos.x] = 'b';
+		_pPlayer->iBombCount++;
+		vector<BOOM> tempbomb;
+
+		_vecBomb.push_back({_pPlayer->tPos.x, _pPlayer->tPos.y, 50, false});
 	}
 }

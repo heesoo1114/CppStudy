@@ -54,7 +54,6 @@ int main()
 	while (true)
 	{
 		Gotoxy(0, 0);
-
 		Update(cMaze, &tPlayer, vecBomb, boomEffect);
 		Render(cMaze, &tPlayer, boomEffect);
 
