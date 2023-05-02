@@ -79,8 +79,8 @@ void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<BOOM>& _vec
 	}
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 	{
-		--_pPlayer->tNewPos.y;
-		Sleep(100);
+			--_pPlayer->tNewPos.y;
+			Sleep(100);
 	}
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{
@@ -100,6 +100,28 @@ void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<BOOM>& _vec
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
 		BombCreate(_cMaze, _pPlayer, _vecBomb);
+	}
+	// 폭탄을 터뜨려
+	_pPlayer->iBombCount;
+	
+	int iBombcount = _pPlayer->iBombCount;
+	for (int i = 0; i < iBombcount; i++)
+	{
+		BOOM& boomItem = _vecBomb[i];
+		boomItem.life--;
+
+		// 0 ~ 4, 5 ~ 9
+		boomItem.life % 10 >= 5 ? _cMaze[boomItem.y][boomItem.x] = (char)MAPTYPE::WATERBOMB	:
+			_cMaze[boomItem.y][boomItem.x] = (char)MAPTYPE::TWINKLE;
+		
+		if (boomItem.life <= 0)
+		{
+			// life <= 0 터트리면 돼
+			boomItem.bDie = true;
+			_pPlayer->iBombCount--;
+
+			Fire(_cMaze, _pPlayer, { boomItem.x, boomItem.y }, _boomEffect);
+		}
 	}
 
 	if (GetAsyncKeyState('E') & 0x8000)
@@ -205,5 +227,40 @@ void BombCreate(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<BO
 		vector<BOOM> tempbomb;
 
 		_vecBomb.push_back({_pPlayer->tPos.x, _pPlayer->tPos.y, 50, false});
+	}
+}
+
+void Fire(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, POS _boompos, std::vector<POS>& _boomEffect)
+{
+	// 현재 포지션을 일단 길로 바꿔야 함
+	_cMaze[_boompos.y][_boompos.x] = (char)MAPTYPE::ROAD;
+	
+	// 물폭탄 맞았으면 게임오버 -> (0, 0)으로 강제 이동
+	int iScopexmin = _boompos.x - _pPlayer->iBombPower;
+	int iScopexmax = _boompos.x + _pPlayer->iBombPower;
+	int iScopeymin = _boompos.y - _pPlayer->iBombPower;
+	int iScopeymax = _boompos.y + _pPlayer->iBombPower;
+
+	if ((_pPlayer->tPos.x >= iScopexmin && _pPlayer->tPos.x <= iScopexmax && _pPlayer->tPos.x == _boompos.y) ||
+		(_pPlayer->tPos.y >= iScopexmin && _pPlayer->tPos.y <= iScopeymax && _pPlayer->tPos.x == _boompos.x))
+	{
+		_pPlayer->tPos = { 0, 0 };
+	}
+
+	// 파워만큼 상하좌우를 고려
+	// 예외처리 clamp
+	vector<POS> veceffect;
+	for (int i = iScopexmin; i <= iScopexmax; i++)
+	{
+		_boomEffect.push_back({ std::clamp(i, 0, HORIZON - 2), _boompos.y});
+	}
+	for (int i = iScopeymin; i <= iScopeymax; i++)
+	{
+		_boomEffect.push_back({ _boompos.x, std::clamp(i, 0, VERTICAL - 1) });
+	}
+	// 아이템
+	for (auto target : veceffect)
+	{
+
 	}
 }
