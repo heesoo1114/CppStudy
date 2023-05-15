@@ -1,266 +1,353 @@
-#include "Header/GameLogic.h"
-#include <iostream>
+Ôªø#include <iostream>
+#include <vector>
 #include <io.h>
 #include <fcntl.h>
 #include <Windows.h>
 #include <algorithm>
+#include "Header/GameLogic.h"
 #include "Header/console.h"
-
 using namespace std;
 
-void AsciiArt()
-{
-	int oldMode = _setmode(_fileno(stdout), _O_U16TEXT);
-
-	wcout << L"	 _______  _______  __   __  _______    __   __  _______  __    _  " << endl;
-	wcout << L"	|  _    ||       ||  |_|  ||  _    |  |  |_|  ||   _   ||  |  | | " << endl;
-	wcout << L"	| |_|   ||   _   ||       || |_|   |  |       ||  |_|  ||   |_| | " << endl;
-	wcout << L"	|       ||  | |  ||       ||       |  |       ||       ||       | " << endl;
-	wcout << L"	|  _   | |  |_|  ||       ||  _   |   |       ||       ||  _    | " << endl;
-	wcout << L"	| |_|   ||       || ||_|| || |_|   |  | ||_|| ||   _   || | |   | " << endl;
-	wcout << L"	|_______||_______||_|   |_||_______|  |_|   |_||__| |__||_|  |__| " << endl;
-
-	int currentMode = _setmode(_fileno(stdout), _O_TEXT);
-}
+//void AsciiArt()
+//{
+//	int oldMode = _setmode(_fileno(stdout), _O_U16TEXT);
+//
+//	wcout << L"	 _______  _______  __   __  _______    __   __  _______  __    _  " << endl;
+//	wcout << L"	|  _    ||       ||  |_|  ||  _    |  |  |_|  ||   _   ||  |  | | " << endl;
+//	wcout << L"	| |_|   ||   _   ||       || |_|   |  |       ||  |_|  ||   |_| | " << endl;
+//	wcout << L"	|       ||  | |  ||       ||       |  |       ||       ||       | " << endl;
+//	wcout << L"	|  _   | |  |_|  ||       ||  _   |   |       ||       ||  _    | " << endl;
+//	wcout << L"	| |_|   ||       || ||_|| || |_|   |  | ||_|| ||   _   || | |   | " << endl;
+//	wcout << L"	|_______||_______||_|   |_||_______|  |_|   |_||__| |__||_|  |__| " << endl;
+//
+//	int currentMode = _setmode(_fileno(stdout), _O_TEXT);
+//}
 
 void Init(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, PPOS _pStartpos, PPOS _pEndpos)
 {
 	system("mode con cols=80 lines=30");
+	// Ï†úÎ™© ÏÑ§Ï†ï.
 	SetConsoleTitle(TEXT("2-1 Bombman"));
 	ConsoleCursor(false, 1);
-
-	// (*_pStartpos).x = 0; == _pStartpos->x = 0;
 	_pStartpos->x = 0;
 	_pStartpos->y = 0;
 	_pEndpos->x = 19;
 	_pEndpos->y = 13;
-
-	PLAYER tSetPlayer = {*_pStartpos, 1, 0, false, false, false};
-	*_pPlayer = tSetPlayer;
-
-	// string copy 0: ∫Æ, 1: ±Ê, 2: Ω√¿€¡ˆ¡°, 3: ≥°¡ˆ¡°
-	strcpy_s(_cMaze[0],  "21100000000000000000");
-	strcpy_s(_cMaze[1],  "00111111110000000000");
-	strcpy_s(_cMaze[2],  "00000000010000000000");
-	strcpy_s(_cMaze[3],  "00000000011100000000");
-	strcpy_s(_cMaze[4],  "00000000000100000000");
-	strcpy_s(_cMaze[5],  "00000001111100000000");
-	strcpy_s(_cMaze[6],  "00000001000000000000");
-	strcpy_s(_cMaze[7],  "00000001111111000000");
-	strcpy_s(_cMaze[8],  "00000000000001000000");
-	strcpy_s(_cMaze[9],  "00000000000001000000");
-	strcpy_s(_cMaze[10], "00000111111111000000");
-	strcpy_s(_cMaze[11], "00000100000001000000");
-	strcpy_s(_cMaze[12], "00000100000001000000");
-	strcpy_s(_cMaze[13], "01111111000001111130");
-	strcpy_s(_cMaze[14], "00000001000001000000");
-	strcpy_s(_cMaze[15], "00000001000001000000");
-	strcpy_s(_cMaze[16], "01111111111111000000");
-	strcpy_s(_cMaze[17], "00000001000101111110");
-	strcpy_s(_cMaze[18], "00000001000100000000");
-	strcpy_s(_cMaze[19], "00000000000100000000");
+	PLAYER tSetplayer = { *_pStartpos,{}, 1, 0, false, false, false };
+	*_pPlayer = tSetplayer;
+	// string copy.. 0: Î≤Ω, 1: Í∏∏, 2: ÏãúÏûëÏßÄÏ†ê, 3: ÎÅùÏßÄÏ†ê
+	strcpy_s(_cMaze[0], "21100000000000000000");
+	strcpy_s(_cMaze[1], "10111111111000000000");
+	strcpy_s(_cMaze[2], "00100000001111100000");
+	strcpy_s(_cMaze[3], "00100000000000100000");
+	strcpy_s(_cMaze[4], "00100000000000100000");
+	strcpy_s(_cMaze[5], "00100000000000100000");
+	strcpy_s(_cMaze[6], "00100000000000100000");
+	strcpy_s(_cMaze[7], "00100000000000100000");
+	strcpy_s(_cMaze[8], "00111111111000100000");
+	strcpy_s(_cMaze[9], "00000000001000100000");
+	strcpy_s(_cMaze[10], "00111111111000100000");
+	strcpy_s(_cMaze[11], "00100000000000100000");
+	strcpy_s(_cMaze[12], "00111111111111100000");
+	strcpy_s(_cMaze[13], "00001000000000001113");
+	strcpy_s(_cMaze[14], "00001000000000001000");
+	strcpy_s(_cMaze[15], "00001000000000001000");
+	strcpy_s(_cMaze[16], "00001111111111111000");
+	strcpy_s(_cMaze[17], "00001000000000000000");
+	strcpy_s(_cMaze[18], "00001000000000000000");
+	strcpy_s(_cMaze[19], "00000000000000000000");
 }
 
 void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<BOOM>& _vecBomb, vector<POS>& _boomEffect)
 {
-	// ∞ªΩ≈µ» ¿ßƒ°ø° «ˆ¿Á ¿ßƒ°∏¶ ¿˙¿Â
+	// ========== ÏõÄÏßÅÏûÑ Î°úÏßÅ ======//
+	// 
+	// Í∞±Ïã†Îêú ÏúÑÏπò(NewPos)Í∞Ä ÌòÑÏû¨ ÏúÑÏπòÎ•º Ï†ÄÏû•.
 	_pPlayer->tNewPos = _pPlayer->tPos;
-
 	// GetAsyncKeyState
 	if (GetAsyncKeyState(VK_UP) & 0x8000)
 	{
-		--_pPlayer->tNewPos.x;
+		--_pPlayer->tNewPos.y;
 		Sleep(100);
 	}
 	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
 	{
-		++_pPlayer->tNewPos.x;
+		++_pPlayer->tNewPos.y;
 		Sleep(100);
 	}
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 	{
-			--_pPlayer->tNewPos.y;
-			Sleep(100);
+		--_pPlayer->tNewPos.x;
+		Sleep(100);
 	}
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{
-		++_pPlayer->tNewPos.y;
+		++_pPlayer->tNewPos.x;
 		Sleep(100);
 	}
-
-	// ∫Æ π€¿Œ¡ˆ clamp
+	// Î≤Ω Î∞ñÏù∏ÏßÄ clamp
 	_pPlayer->tNewPos.x = std::clamp(_pPlayer->tNewPos.x, 0, HORIZON - 2);
 	_pPlayer->tNewPos.y = std::clamp(_pPlayer->tNewPos.y, 0, VERTICAL - 1);
 
-	if (_cMaze[_pPlayer->tNewPos.y][_pPlayer->tNewPos.x] != 0) // 0¿∫ ∫Æ¿Œµ• ∫Æ¿Ã æ∆¥œ∞Ì ∞• ºˆ ¿÷¥¬ ≈∏¿œ¿ÃæÓæﬂ ¿Ãµø ∞°¥…
+	if (_cMaze[_pPlayer->tNewPos.y][_pPlayer->tNewPos.x] != '0') // 0ÏùÄ Î≤Ω.
 	{
 		_pPlayer->tPos = _pPlayer->tNewPos;
 	}
 
+	// Î≤ΩÏùÄ ÌïúÏπ∏Îßå Î∞Ä Ïàò ÏûàÎã§.  => Îã§ÏùåÏπ∏Ïù¥ Î≤ΩÏù¥Í≥†, Îã§ÏùåÎã§ÏùåÏπ∏Ïù¥ Í∏∏ÏùºÎïåÎßå Î∞Ä Ïàò ÏûàÎã§.
+	// 
+	else if (_cMaze[_pPlayer->tNewPos.y][_pPlayer->tNewPos.x] == (char)MAPTYPE::WALL && _pPlayer->bPushOnOff && _pPlayer->bWallPush)
+	{
+		POS tDiffpos = { _pPlayer->tNewPos.x - _pPlayer->tPos.x, _pPlayer->tNewPos.y - _pPlayer->tPos.y };
+		POS tNextpos = { _pPlayer->tPos.x + tDiffpos.x * 1, _pPlayer->tPos.y + tDiffpos.y * 1 };
+		POS tDoublepos = { _pPlayer->tPos.x + tDiffpos.x * 2, _pPlayer->tPos.y + tDiffpos.y * 2 };
+
+		// Ìë∏Ïãú onÏù∏ ÏÉÅÌÉú. Îã§ÏùåÎã§ÏùåÏù¥ Î≤ΩÏù¥Í≥†, Ïä¨ÎùºÏûÑ Ïò®Ïù¥ÎùºÎ©¥
+		if (_pPlayer->bSlime && _cMaze[tDoublepos.y][tDoublepos.x] == (char)MAPTYPE::WALL)
+		{
+			_pPlayer->tPos = _pPlayer->tNewPos;
+		}
+		// Ìë∏Ïãú onÏù∏ ÏÉÅÌÉú. Îã§ÏùåÎã§ÏùåÏù¥ Í∏∏. Í∑∏Îüº Ïä¨ÎùºÏûÑÏùÑ Í≥†Î†§Ìï† ÌïÑÏöîÏóÜÏù¥ Í∞±Ïã†
+		else if (_cMaze[tDoublepos.y][tDoublepos.x] == (char)MAPTYPE::ROAD)
+		{
+			_cMaze[tDoublepos.y][tDoublepos.x] = (char)MAPTYPE::WALL;
+			_cMaze[tNextpos.y][tNextpos.x] = (char)MAPTYPE::ROAD;
+			_pPlayer->tPos = _pPlayer->tNewPos;
+		}
+	}
+	else if (_pPlayer->bSlime)
+	{
+		_pPlayer->tPos = _pPlayer->tNewPos;
+	}
+
+	if (Getitem(_cMaze[_pPlayer->tPos.y][_pPlayer->tPos.x], _pPlayer))
+		_cMaze[_pPlayer->tPos.y][_pPlayer->tPos.x] = (char)MAPTYPE::ROAD;
+
+	// Ïä¨ÎùºÏûÑÏùÑ Î®πÏóàÏùÑ Îïå, Ìë∏ÏãúÎ•º Ìï† Ïàò ÏûàÏùÑ Îïå
+
+	// ========== ÌÇ§ Î°úÏßÅ ======//
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
 		BombCreate(_cMaze, _pPlayer, _vecBomb);
 	}
-	// ∆¯≈∫¿ª ≈Õ∂ﬂ∑¡
-	_pPlayer->iBombCount;
-	
-	int iBombcount = _pPlayer->iBombCount;
+
+	// Ìè≠ÌÉÑÏùÑ ÌÑ∞Ìä∏Î¶¥Í±∞Ïïº. life
+	int iBombcount = _pPlayer->iBombcount;
 	for (int i = 0; i < iBombcount; i++)
 	{
 		BOOM& boomItem = _vecBomb[i];
 		boomItem.life--;
-
-		// 0 ~ 4, 5 ~ 9
-		boomItem.life % 10 >= 5 ? _cMaze[boomItem.y][boomItem.x] = (char)MAPTYPE::WATERBOMB	:
+		// 0~4 / 5~9 
+		boomItem.life % 10 >= 5 ? _cMaze[boomItem.y][boomItem.x] = (char)MAPTYPE::WATERBOMB :
 			_cMaze[boomItem.y][boomItem.x] = (char)MAPTYPE::TWINKLE;
-		
+		//boomItem.life % 2 == 0? _cMaze[boomItem.y][boomItem.x] = (char)MAPTYPE::WATERBOMB :
+		//	_cMaze[boomItem.y][boomItem.x] = (char)MAPTYPE::TWINKLE;
+
 		if (boomItem.life <= 0)
 		{
-			// life <= 0 ≈Õ∆Æ∏Æ∏È µ≈
+			// life <=0  ÌÑ∞Ìä∏Î¶¨Î©¥Îèº.
 			boomItem.bDie = true;
-			_pPlayer->iBombCount--;
-
+			_pPlayer->iBombcount--;
+			// ÌÑ∞Ìä∏Î¶¨Î©¥Îèº. ÌÑ∞ÏßÄÎ©¥ÏÑú? Ìè≠ÌÉÑÏúÑÏπò + ÌååÏõå -> Í∏∏ / ÌôïÎ•†ÏÉÅ ÏïÑÏù¥ÌÖú ÎÇòÏò§Í∏∞.
 			Fire(_cMaze, _pPlayer, { boomItem.x, boomItem.y }, _boomEffect);
+
+			// Î≤°ÌÑ∞ÏóêÏÑú ÏßÄÏö∞Í∏∞ÎèÑ Ìï¥ÏïºÌï®. => Ï∂îÌõÑ Îî∞Î°ú Ìï† ÏòàÏ†ï.
 		}
 	}
-
 	if (GetAsyncKeyState('E') & 0x8000)
 	{
 		if (_pPlayer->bWallPush)
-		{
 			_pPlayer->bPushOnOff = !_pPlayer->bPushOnOff;
-		}
 	}
-
 	Sleep(100);
 }
 
-void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<POS>& boomEffectr)
+void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, vector<POS>& _boomEffect)
 {
 	for (int i = 0; i < VERTICAL; i++)
 	{
 		for (int j = 0; j < HORIZON; j++)
 		{
-			if (_pPlayer->tPos.x == i && _pPlayer->tPos.y == j)
+			bool drawed = false;
+			for (int k = 0; k < _boomEffect.size(); k++)
 			{
-				cout << "°Œ";
+				// Ïù¥ÌéôÌä∏Ïùò Î≤îÏúÑÎßåÌÅº Í∑∏Î¶¥ Í±∞
+				if (_boomEffect[k].x == j && _boomEffect[k].y == i)
+				{
+					SetColor((int)COLOR::LIGHT_BLUE, (int)COLOR::BLACK);
+					cout << "‚ñ§";
+					drawed = true;
+					break;
+				}
 			}
+
+			if (drawed) continue;
+
+			if (_pPlayer->tPos.x == j && _pPlayer->tPos.y == i)
+				cout << "¬ß";
 			else if (_cMaze[i][j] == (char)MAPTYPE::WALL)
-			{
-				cout << "°·";
-			}
+				cout << "‚ñ†";
 			else if (_cMaze[i][j] == (char)MAPTYPE::ROAD)
-			{
-				cout << " ";
-			}
+				cout << " "; // ÏúàÎèÑÏö∞11 ÌïúÏπ∏S
 			else if (_cMaze[i][j] == (char)MAPTYPE::START)
-			{
-				cout << "¢Á";
-			}
+				cout << "¬Æ";
 			else if (_cMaze[i][j] == (char)MAPTYPE::END)
-			{
-				cout << "¢Õ";
-			}
-			else if (_cMaze[i][j] == (char)MAPTYPE::END)
-			{
-				cout << "¢Õ";
-			}
-			else if (_cMaze[i][j] == (char)MAPTYPE::WATERBOMB)
+				cout << "‚ô®";
+			else if (_cMaze[i][j] == (char)MAPTYPE::WATERBOMB) // Î¨ºÌíçÏÑ†
 			{
 				SetColor((int)COLOR::MINT, (int)COLOR::BLACK);
-				cout << "@";
+				cout << "Ôº†";
 			}
-			else if (_cMaze[i][j] == (char)MAPTYPE::TWINKLE)
+			else if (_cMaze[i][j] == (char)MAPTYPE::TWINKLE) // 
 			{
 				SetColor((int)COLOR::SKYBLUE, (int)COLOR::BLACK);
-				cout << "¢¡";
+				cout << "‚äô";
 			}
 			else if (_cMaze[i][j] == (char)MAPTYPE::POWER)
-			{
-				cout << "¢ƒ";
-			}
+				cout << "‚óê";
 			else if (_cMaze[i][j] == (char)MAPTYPE::SLIME)
-			{
-				cout << "¢ª";
-			}
+				cout << "‚ô§";
 			else if (_cMaze[i][j] == (char)MAPTYPE::PUSH)
-			{
-				cout << "¢Ã";
-			}
+				cout << "‚ñ©";
 			SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
 		}
 		cout << endl;
 	}
-	cout << "SPACEBAR: ∆¯≈∫º≥ƒ°, E: «™Ω√¥…∑¬ ON/OFF" << endl;
-	cout << "∆¯≈∫ ∆ƒøˆ " << _pPlayer->iBombPower << endl;
-
+	cout << "SPACEBAR: Ìè≠ÌÉÑÏÑ§Ïπò, E: Ìë∏ÏãúÎä•Î†• ON/OFF" << endl;
+	cout << "Ìè≠ÌÉÑ ÌååÏõå: " << _pPlayer->iBombPower << endl;
 	if (_pPlayer->bPushOnOff)
-	{
-		cout << "«™Ω√ ¥…∑¬ ON " << endl;
-	}
+		cout << "Ìë∏Ïãú Îä•Î†•: ON " << endl;
 	else
-	{
-		cout << "«™Ω√ ¥…∑¬ OFF " << endl;
-	}
-
+		cout << "Ìë∏Ïãú Îä•Î†•: OFF" << endl;
 	if (_pPlayer->bSlime)
-	{
-		cout << "ΩΩ∂Û¿” ¥…∑¬ ON " << endl;
-	}
+		cout << "Ïä¨ÎùºÏûÑ Îä•Î†•: ON " << endl;
 	else
-	{
-		cout << "ΩΩ∂Û¿” ¥…∑¬ OFF " << endl;
-	}
-	
+		cout << "Ïä¨ÎùºÏûÑ Îä•Î†•: OFF" << endl;
 }
 
 void BombCreate(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<BOOM>& _vecBomb)
 {
-	// ∆¯≈∫ ∞≥ºˆ¥¬ 5∞≥∏∏
-	if (_pPlayer->iBombCount == 5) return;
+	// Ìè≠ÌÉÑ Í∞úÏàòÎäî 5Í∞úÎßå ÌïòÍ≥† Ïã∂Ïñ¥.
+	if (_pPlayer->iBombcount == 5) return;
 
-	// ∆¯≈∫ º≥ƒ° ∞°¥…
+	// Ìè≠ÌÉÑ ÏÑ§Ïπò Í∞ÄÎä•
 	if (_cMaze[_pPlayer->tPos.y][_pPlayer->tPos.x] == (char)MAPTYPE::ROAD)
 	{
 		_cMaze[_pPlayer->tPos.y][_pPlayer->tPos.x] = 'b';
-		_pPlayer->iBombCount++;
-		vector<BOOM> tempbomb;
-
-		_vecBomb.push_back({_pPlayer->tPos.x, _pPlayer->tPos.y, 50, false});
+		_pPlayer->iBombcount++;
+		// Ï¥àÍ∏∞Ìôî Î∞©Î≤ï 3Í∞ÄÏßÄ ÏûàÏäµÎãàÎã§.
+		_vecBomb.push_back({ _pPlayer->tPos.x, _pPlayer->tPos.y, 20, false });
 	}
 }
 
 void Fire(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, POS _boompos, std::vector<POS>& _boomEffect)
 {
-	// «ˆ¿Á ∆˜¡ˆº«¿ª ¿œ¥‹ ±Ê∑Œ πŸ≤„æﬂ «‘
+	// ÌòÑÏû¨ Ìè¨ÏßÄÏÖòÏùÑ ÏùºÎã® Í∏∏Î°ú Î∞îÍøîÏïºÎèº.
 	_cMaze[_boompos.y][_boompos.x] = (char)MAPTYPE::ROAD;
-	
-	// π∞∆¯≈∫ ∏¬æ“¿∏∏È ∞‘¿”ø¿πˆ -> (0, 0)¿∏∑Œ ∞≠¡¶ ¿Ãµø
+	// Î¨ºÌè≠ÌÉÑ ÎßûÏïòÏúºÎ©¥ Ï£ΩÏñ¥ÏïºÎèº. -> game over .. (0,0)ÏúºÎ°ú Í∞ïÏ†ú Ïù¥ÎèôÏãúÌÇµÏãúÎã§.
+	// clamp Ïó¨Í∏∞ÏÑú ÌïòÏûê.
 	int iScopexmin = _boompos.x - _pPlayer->iBombPower;
 	int iScopexmax = _boompos.x + _pPlayer->iBombPower;
 	int iScopeymin = _boompos.y - _pPlayer->iBombPower;
 	int iScopeymax = _boompos.y + _pPlayer->iBombPower;
 
-	if ((_pPlayer->tPos.x >= iScopexmin && _pPlayer->tPos.x <= iScopexmax && _pPlayer->tPos.x == _boompos.y) ||
-		(_pPlayer->tPos.y >= iScopexmin && _pPlayer->tPos.y <= iScopeymax && _pPlayer->tPos.x == _boompos.x))
-	{
-		_pPlayer->tPos = { 0, 0 };
-	}
+	// xÎ°ú Ï£ΩÏùÄÍ±∞ || yÎ°ú Ï£ΩÏùÄÍ±∞
+	if ((_pPlayer->tPos.x >= iScopexmin && _pPlayer->tPos.x <= iScopexmax && _pPlayer->tPos.y == _boompos.y) ||
+		(_pPlayer->tPos.y >= iScopeymin && _pPlayer->tPos.y <= iScopeymax && _pPlayer->tPos.x == _boompos.x))
+		_pPlayer->tPos = { 0,0 };
 
-	// ∆ƒøˆ∏∏≈≠ ªÛ«œ¡¬øÏ∏¶ ∞Ì∑¡
-	// øπø‹√≥∏Æ clamp
-	vector<POS> veceffect;
+	// ÌååÏõåÎßåÌÅº ÏÉÅÌïòÏ¢åÏö∞Î•º Í≥†Î†§Ìï¥ÏïºÎèº.
+	// ÏòàÏô∏Ï≤òÎ¶¨ clamp
+	static vector<POS> veceffect;
 	for (int i = iScopexmin; i <= iScopexmax; i++)
 	{
-		_boomEffect.push_back({ std::clamp(i, 0, HORIZON - 2), _boompos.y});
+		veceffect.push_back({ std::clamp(i, 0, HORIZON - 2),_boompos.y });
 	}
 	for (int i = iScopeymin; i <= iScopeymax; i++)
 	{
-		_boomEffect.push_back({ _boompos.x, std::clamp(i, 0, VERTICAL - 1) });
+		veceffect.push_back({ _boompos.x, std::clamp(i, 0, VERTICAL - 1) });
 	}
-	// æ∆¿Ã≈€
-	for (auto target : veceffect)
-	{
 
+	// ÏïÑÏù¥ÌÖú.
+	for (const auto& target : veceffect)
+	{
+		_boomEffect.push_back(target);
+		if (_cMaze[target.y][target.x] == (char)MAPTYPE::WALL)
+		{
+			// 50% ÌôïÎ•†Î°ú ÏïÑÏù¥ÌÖúÏù¥ÎÇòÏôÄ
+			// 25% : 15% : 10% = Î¨ºÌíçÏÑ†, Ìë∏Ïãú, Ïä¨ÎùºÏûÑ
+			float fRandomitem = rand() % 10001 / 100.f; // 0.0% ~ 100.0%
+			if (fRandomitem <= 50.f)
+			{
+				fRandomitem = rand() % 10001 / 100.f;
+				if (fRandomitem <= 50.f)
+				{
+					_cMaze[target.y][target.x] = (char)MAPTYPE::POWER;
+				}
+				else if (fRandomitem <= 80.f)
+				{
+					_cMaze[target.y][target.x] = (char)MAPTYPE::SLIME;
+				}
+				else
+				{
+					_cMaze[target.y][target.x] = (char)MAPTYPE::PUSH;
+				}
+			}
+			else
+				_cMaze[target.y][target.x] = (char)MAPTYPE::ROAD;
+		}
 	}
+
+}
+
+void Event(std::vector<BOOM>& _vecBomb, std::vector<POS>& _boomEffect)
+{
+
+	// Ìè≠ÌÉÑÏùÑ ÏßÄÏö∏Í±∞Ïïº.
+	vector<BOOM>::iterator iter;
+	//for ( ; iter == _vecBomb.begin(); iter--)
+	//{
+	//	if (iter->bDie)
+	//	{
+	//		iter = _vecBomb.erase(iter);
+	//	}
+	//}
+	for (iter = _vecBomb.begin(); iter != _vecBomb.end(); )
+	{
+		if (iter->bDie)
+		{
+			iter = _vecBomb.erase(iter);
+		}
+		else
+			iter++;
+	}
+
+	// Ïù¥ÌéôÌä∏ÎèÑ ÏßÄÏö∞Í≥† Ïã∂Îã§
+	vector<POS>::iterator effectiter;
+	for (effectiter = _boomEffect.begin(); effectiter != _boomEffect.end();)
+	{
+		effectiter = _boomEffect.erase(effectiter);
+	}
+}
+
+bool Getitem(char _cItem, PPLAYER _pPlayer)
+{
+	if (_cItem == (char)MAPTYPE::POWER)
+	{
+		// ÏÇ¨Ïö¥Îìú
+		++_pPlayer->iBombPower;
+		return true;
+	}
+	else if (_cItem == (char)MAPTYPE::SLIME)
+	{
+		_pPlayer->bSlime = true;
+		return true;
+	}
+	else if (_cItem == (char)MAPTYPE::PUSH)
+	{
+		_pPlayer->bWallPush = true;
+		_pPlayer->bPushOnOff = true;
+		return true;
+	}
+	return false;
 }
