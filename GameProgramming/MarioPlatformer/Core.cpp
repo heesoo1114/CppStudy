@@ -1,12 +1,23 @@
 #include<iostream>
 #include<Windows.h>
 #include "Core.h"
+#include "MapManager.h"
 using namespace std;
+
 Core* Core::m_pInst = nullptr;
+Core::Core()
+{
+
+}
 
 bool Core::Init()
 {
     // Mgr들 초기화
+    if (!MapManager::GetInst()->Init())
+    {
+        return false;
+    }
+
     // 커서 없애기
     return true;
 }
@@ -18,7 +29,7 @@ void Core::Run()
     while (true)
     {
         // 맵을 계속 그려줄거야
-        iStage;
+        MapManager::GetInst()->Run(iStage-1);
     }
 }
 

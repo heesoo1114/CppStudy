@@ -10,7 +10,7 @@ int main()
 	{
 		cout << "Core 초기화 실패" << endl;
 		Core::DestroyInst();
-
+		return 0;
 	}
 
 	// GameMgr 실행
