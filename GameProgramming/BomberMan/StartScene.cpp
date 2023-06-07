@@ -45,7 +45,7 @@ int GameMenu()
 		}
 		break;
 		case (int)KEY::SPACE:
-		{
+		{      
 			return y - 12;
 		}
 		break;

@@ -53,6 +53,7 @@ void BombCreate(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<BO
 void Fire(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, POS _boompos, std::vector<POS>& _boomEffect);
 void Event(std::vector<BOOM>& _vecBomb, std::vector<POS>& _boomEffect);
 bool Getitem(char _cItem, PPLAYER _pPlayer);
+void Asciiart();
 
 enum class MAPTYPE
 {

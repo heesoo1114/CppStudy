@@ -8,20 +8,20 @@
 #include "Header/console.h"
 using namespace std;
 
-//void AsciiArt()
-//{
-//	int oldMode = _setmode(_fileno(stdout), _O_U16TEXT);
-//
-//	wcout << L"	 _______  _______  __   __  _______    __   __  _______  __    _  " << endl;
-//	wcout << L"	|  _    ||       ||  |_|  ||  _    |  |  |_|  ||   _   ||  |  | | " << endl;
-//	wcout << L"	| |_|   ||   _   ||       || |_|   |  |       ||  |_|  ||   |_| | " << endl;
-//	wcout << L"	|       ||  | |  ||       ||       |  |       ||       ||       | " << endl;
-//	wcout << L"	|  _   | |  |_|  ||       ||  _   |   |       ||       ||  _    | " << endl;
-//	wcout << L"	| |_|   ||       || ||_|| || |_|   |  | ||_|| ||   _   || | |   | " << endl;
-//	wcout << L"	|_______||_______||_|   |_||_______|  |_|   |_||__| |__||_|  |__| " << endl;
-//
-//	int currentMode = _setmode(_fileno(stdout), _O_TEXT);
-//}
+void AsciiArt()
+{
+	int oldMode = _setmode(_fileno(stdout), _O_U16TEXT);
+
+	wcout << L"	 _______  _______  __   __  _______    __   __  _______  __    _  " << endl;
+	wcout << L"	|  _    ||       ||  |_|  ||  _    |  |  |_|  ||   _   ||  |  | | " << endl;
+	wcout << L"	| |_|   ||   _   ||       || |_|   |  |       ||  |_|  ||   |_| | " << endl;
+	wcout << L"	|       ||  | |  ||       ||       |  |       ||       ||       | " << endl;
+	wcout << L"	|  _   | |  |_|  ||       ||  _   |   |       ||       ||  _    | " << endl;
+	wcout << L"	| |_|   ||       || ||_|| || |_|   |  | ||_|| ||   _   || | |   | " << endl;
+	wcout << L"	|_______||_______||_|   |_||_______|  |_|   |_||__| |__||_|  |__| " << endl;
+
+	int currentMode = _setmode(_fileno(stdout), _O_TEXT);
+}
 
 void Init(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, PPOS _pStartpos, PPOS _pEndpos)
 {
