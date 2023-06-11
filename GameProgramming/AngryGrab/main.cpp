@@ -1,6 +1,7 @@
 #include <iostream>
+#include <algorithm>
 #include <Windows.h>
-#include<mmsystem.h>
+#include <mmsystem.h>
 #include "Console.h"
 #include "GameLogic.h"
 #include "StartScene.h"
@@ -14,6 +15,7 @@ int main()
 
 	Gotoxy(0, 0);
 	int x = 0;
+	int y = 0;
 
 	Init();
 	while (true)
@@ -28,7 +30,19 @@ int main()
 			x++;
 			Sleep(100);
 		}
-		Render(x);
+		if (GetAsyncKeyState(VK_UP) & 0x8000)
+		{
+			--y;
+			Sleep(100);
+		}
+		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+		{
+			++y;
+			Sleep(100);
+		}
+		x = clamp(x, 0, 71);
+		y = clamp(y, 0, 18);
+		Render(x, y);
 	}
 
 	// while (true)

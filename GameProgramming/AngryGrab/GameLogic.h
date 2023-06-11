@@ -3,7 +3,7 @@
 // Method
 void AsciiArt();
 void Init();
-void Render(int x);
+void Render(int x, int y);
 void Update();
 
 // Property

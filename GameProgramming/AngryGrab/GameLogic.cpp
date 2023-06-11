@@ -7,6 +7,8 @@
 #include "Console.h"
 using namespace std;
 
+string str = "    x    ";
+
 void AsciiArt()
 {
 	int oldMode = _setmode(_fileno(stdout), _O_U16TEXT);
@@ -26,20 +28,25 @@ void Init()
 {
 	SetConsoleTitle(TEXT("AngryGrab"));
 	ConsoleCursor(false, 1);
+	system("mode con cols=80 lines=25");
 }
 
-void Render(int x)
+void Render(int x, int y)
 {
-	Gotoxy(x, 0);
-	cout << str;
-	Gotoxy(x, 1);
-	cout << "    x    ";
-	Gotoxy(x, 2);
-	cout << "    x    ";
-	Gotoxy(x, 3);
+	for (int i = 0; i < y + 3; ++i)
+	{
+		Gotoxy(x, i);
+		cout << str;
+	}
+	Gotoxy(x, y + 3);
 	cout << " x x x x ";
-	Gotoxy(x, 4);
-	cout << " x     x ";
+	Gotoxy(x, y + 4);
+	cout << " x";
+	Gotoxy(x + 7, y + 4);
+	cout << "x ";
+	Gotoxy(x, y + 5); 
+	if (true) //여기서 아래 뭐가 있는지 check
+		cout << "         ";
 }
 
 void Update()
