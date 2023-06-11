@@ -21,3 +21,43 @@ void AsciiArt()
 	
 	int currentMode = _setmode(_fileno(stdout), _O_TEXT);
 }
+
+void Init()
+{
+	SetConsoleTitle(TEXT("AngryGrab"));
+	ConsoleCursor(false, 1);
+}
+
+void Render(int x)
+{
+	Gotoxy(x, 0);
+	cout << str;
+	Gotoxy(x, 1);
+	cout << "    x    ";
+	Gotoxy(x, 2);
+	cout << "    x    ";
+	Gotoxy(x, 3);
+	cout << " x x x x ";
+	Gotoxy(x, 4);
+	cout << " x     x ";
+}
+
+void Update()
+{
+	if (GetAsyncKeyState(VK_UP) & 0x8000)
+	{
+		Sleep(100);
+	}
+	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+	{
+		Sleep(100);
+	}
+	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	{
+		Sleep(100);
+	}
+	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+	{
+		Sleep(100);
+	}
+}
