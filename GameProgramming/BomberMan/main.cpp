@@ -23,7 +23,7 @@ int main()
 	while (true)
 	{
 		system("cls");
-		Asciiart();
+		AsciiArt();
 		int iMenu = GameMenu();
 		if (iMenu == 0) // 게임 시작
 			break;
