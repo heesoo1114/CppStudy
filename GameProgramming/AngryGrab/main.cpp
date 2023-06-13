@@ -14,35 +14,43 @@ int main()
 	// 초기화 단계 (변수 설정 및 초기화 함수 실행)
 
 	Gotoxy(0, 0);
-	int x = 0;
-	int y = 0;
+	int x, y;
+	x = y = 0; 
 
 	Init();
 	while (true)
 	{
-		if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+		// 좌우 움직임
+		HorizontalMovement(x, y);
+
+		// 하강 후 상승까지
+		if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 		{
-			x--;
-			Sleep(100);
+			while (true)
+			{
+				for (int i = 0; i < 18; i++)
+				{
+					++y;
+					Sleep(100);
+					Render(x, y);
+				}
+
+				Sleep(300);
+
+				for (int i = 0; i < 18; i++)
+				{
+					--y;
+					Sleep(100);
+					Render(x, y);
+				}
+
+				break;
+			}
 		}
-		if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+		else
 		{
-			x++;
-			Sleep(100);
+			Render(x, y);
 		}
-		if (GetAsyncKeyState(VK_UP) & 0x8000)
-		{
-			--y;
-			Sleep(100);
-		}
-		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-		{
-			++y;
-			Sleep(100);
-		}
-		x = clamp(x, 0, 71);
-		y = clamp(y, 0, 18);
-		Render(x, y);
 	}
 
 	// while (true)

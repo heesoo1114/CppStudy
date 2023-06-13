@@ -1,13 +1,14 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <vector>
 #include <io.h>
 #include <fcntl.h>
 #include <Windows.h>
 #include <algorithm>
 #include "Console.h"
+#include "GameLogic.h"
 using namespace std;
 
-string str = "    x    ";
+string singleX = "    x    ";
 
 void AsciiArt()
 {
@@ -31,40 +32,64 @@ void Init()
 	system("mode con cols=80 lines=25");
 }
 
+void Update()
+{
+
+}
+
 void Render(int x, int y)
 {
+	#pragma region Grab
+
 	for (int i = 0; i < y + 3; ++i)
 	{
 		Gotoxy(x, i);
-		cout << str;
+		cout << singleX;
 	}
 	Gotoxy(x, y + 3);
 	cout << " x x x x ";
 	Gotoxy(x, y + 4);
-	cout << " x";
-	Gotoxy(x + 7, y + 4);
-	cout << "x ";
-	Gotoxy(x, y + 5); 
-	if (true) //¿©±â¼­ ¾Æ·¡ ¹¹°¡ ÀÖ´ÂÁö check
-		cout << "         ";
+	cout << " x     x ";
+	Gotoxy(x, y + 5);
+	cout << "         ";
+
+	#pragma endregion
+
+	#pragma region BeforGrab 
+
+	// Gotoxy(x, y + 3);
+	// cout << " x x x x ";
+	// Gotoxy(x, y + 4);
+	// cout << " x";
+	// Gotoxy(x + 7, y + 4);
+	// cout << "x ";
+	// Gotoxy(x, y + 5);
+	// if (true) //ì—¬ê¸°ì„œ ì•„ëž˜ ë­ê°€ ìžˆëŠ”ì§€ check
+	// 	cout << "         ";
+
+	#pragma endregion
+
+	#pragma region Enemy
+
+	Gotoxy(70, 22);
+	cout << "â™¬â™¬" << endl;
+
+	#pragma endregionã…
 }
 
-void Update()
+void HorizontalMovement(int& x, int& y)
 {
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	{
-		Sleep(100);
-	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	{
-		Sleep(100);
-	}
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 	{
+		x--;
 		Sleep(100);
 	}
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{
+		x++;
 		Sleep(100);
 	}
+
+	x = clamp(x, 0, 71);
+	y = clamp(y, 0, 18);
 }
