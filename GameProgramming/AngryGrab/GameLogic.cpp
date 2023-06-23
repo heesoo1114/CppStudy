@@ -29,7 +29,7 @@ void Init()
 {
 	SetConsoleTitle(TEXT("AngryGrab"));
 	ConsoleCursor(false, 1);
-	system("mode con cols=80 lines=25");
+	system("mode con cols=115 lines=35");
 }
 
 void Update()
@@ -37,44 +37,36 @@ void Update()
 
 }
 
-void Render(int x, int y)
+void Render(int playerX, int playerY, int enemyX, int enemyY, bool isEnemy)
 {
 	#pragma region Grab
 
-	for (int i = 0; i < y + 3; ++i)
+	for (int i = 0; i < playerY + 3; ++i)
 	{
-		Gotoxy(x, i);
+		Gotoxy(playerX, i);
 		cout << singleX;
 	}
-	Gotoxy(x, y + 3);
+	Gotoxy(playerX, playerY + 3);
 	cout << " x x x x ";
-	Gotoxy(x, y + 4);
+	Gotoxy(playerX, playerY + 4);
 	cout << " x     x ";
-	Gotoxy(x, y + 5);
+	Gotoxy(playerX, playerY + 5);
 	cout << "         ";
-
-	#pragma endregion
-
-	#pragma region BeforGrab 
-
-	// Gotoxy(x, y + 3);
-	// cout << " x x x x ";
-	// Gotoxy(x, y + 4);
-	// cout << " x";
-	// Gotoxy(x + 7, y + 4);
-	// cout << "x ";
-	// Gotoxy(x, y + 5);
-	// if (true) //여기서 아래 뭐가 있는지 check
-	// 	cout << "         ";
 
 	#pragma endregion
 
 	#pragma region Enemy
 
-	Gotoxy(70, 22);
-	cout << "♬♬" << endl;
+	if (isEnemy)
+	{
+		Gotoxy(enemyX, enemyY);
+		cout << "ㅁ";
+	}
+	
+	#pragma endregion
 
-	#pragma endregionㅁ
+	Gotoxy(0, 23);
+	cout << "------------------------------------------------------------------------------------------------------------" << endl;
 }
 
 void HorizontalMovement(int& x, int& y)
@@ -82,14 +74,15 @@ void HorizontalMovement(int& x, int& y)
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 	{
 		x--;
-		Sleep(100);
+		Sleep(30);
 	}
+
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{
 		x++;
-		Sleep(100);
+		Sleep(30);
 	}
 
-	x = clamp(x, 0, 71);
-	y = clamp(y, 0, 18);
+	x = clamp(x, 0, 111);
+	y = clamp(y, 0, 23);
 }

@@ -85,7 +85,10 @@ void GameInfo()
 	cout << "[조작법]" << endl;
 	cout << "메뉴 선택: 스페이스바" << endl;
 	cout << "방향키를 움직여 집게를 조종하세요." << endl;
-	cout << "Spacebar: 집게 하강" << endl;
+	cout << "아래 화살표: 집게 하강" << endl;
+	cout << endl;
+	cout << "[플레이 방법]" << endl;
+	cout << "제한시간 1분 내에 빠르게 집게를 조종하여 인형을 흭득하세요!" << endl;
 
 	// 스페이스 눌러서 나감
 	while (true)
