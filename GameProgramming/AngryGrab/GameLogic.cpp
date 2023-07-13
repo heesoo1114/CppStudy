@@ -1,9 +1,9 @@
-﻿#include <iostream>
+﻿#include <algorithm>
+#include <iostream>
 #include <vector>
 #include <io.h>
 #include <fcntl.h>
 #include <Windows.h>
-#include <algorithm>
 #include "Console.h"
 #include "GameLogic.h"
 using namespace std;
