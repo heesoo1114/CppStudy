@@ -101,7 +101,7 @@ public:
 			
 			for (int v = 0; v < size; v++)
 			{
-				if (isLinked(i, v) && visited[v])
+				if (isLinked(i, v) && !visited[v])
 				{
 					visited[v] = true;
 					q.push(v);
@@ -156,8 +156,8 @@ int main()
 
 	cout << "인접 행렬로 표현한 그래프" << endl;
 	g.display();
-	cout << "DFS 탐색 => ";
+	cout << "탐색 => ";
 	g.resetVisitied(); // 모든 정점 방문 정보 false로 초기화
 	// g.DFS(0);		   // 0부터 탐색 시작
-	g.BFS(0);
+	// g.BFS(0);
 }
