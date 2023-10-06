@@ -1,4 +1,5 @@
 #include "bt.h"
+#include <iostream>
 
 // -> : 포인터가 가리키는 곳에 접근
 // (주소변수)-> 와 (*주소) 는 서로 같다.
@@ -76,5 +77,3 @@ void PostorderTraverse(BTreeNode* bt)
 	
 	return;
 }
-
-
